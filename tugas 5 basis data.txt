@@ -1,0 +1,89 @@
+Setting environment for using XAMPP for Windows.
+Haikal@LAPTOP-QTMJAKLE c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.28-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| dbkuliahekal       |
+| dbpuskesmas        |
+| dbti02             |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+8 rows in set (0.007 sec)
+
+MariaDB [(none)]> USE dbkuliahekal;
+Database changed
+MariaDB [dbkuliahekal]> SHOW TABLES;
++------------------------+
+| Tables_in_dbkuliahekal |
++------------------------+
+| jurusan                |
+| mahasiswa              |
++------------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [dbkuliahekal]> SELECT * jurusan;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'jurusan' at line 1
+MariaDB [dbkuliahekal]> SELECT * dbkuliahekal;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'dbkuliahekal' at line 1
+MariaDB [dbkuliahekal]> DESC jurusan;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.017 sec)
+
+MariaDB [dbkuliahekal]> DESC mahasiswa;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nim       | int(11)     | NO   | UNI | NULL    |                |
+| nama      | varchar(30) | NO   |     | NULL    |                |
+| alamat    | varchar(50) | NO   |     | NULL    |                |
+| idjurusan | int(11)     | NO   |     | NULL    |                |
+| foto      | varchar(50) | YES  |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+6 rows in set (0.014 sec)
+
+MariaDB [dbkuliahekal]> SELECT * FROM mahasiswa;
++----+---------+------------------+----------------+-----------+---------+
+| id | nim     | nama             | alamat         | idjurusan | foto    |
++----+---------+------------------+----------------+-----------+---------+
+|  1 | 1123445 | Zidane Cucurela  | Bogor          |         1 | jj.jpeg |
+|  2 | 1724109 | Alejandro Haekal | Manchester     |         2 | jn.jpeg |
+|  3 | 1123453 | Ilham Onana      | Senegal        |         3 | ab.jpeg |
+|  4 | 1132422 | Irhamna Berkando | Manchester     |         4 | sr.jpeg |
+|  5 | 1235423 | Ibal Antony      | Rio de jeneiro |         5 | as.jpeg |
++----+---------+------------------+----------------+-----------+---------+
+5 rows in set (0.039 sec)
+
+MariaDB [dbkuliahekal]> SELECT * FROM jurusan;
++----+--------------------+
+| id | nama               |
++----+--------------------+
+|  3 | Bisnis Digital     |
+|  5 | Hukum              |
+|  4 | Ilmu Komunikasi    |
+|  2 | Sistem Informasi   |
+|  1 | Teknik Informatika |
++----+--------------------+
+5 rows in set (0.003 sec)
+
+MariaDB [dbkuliahekal]>
