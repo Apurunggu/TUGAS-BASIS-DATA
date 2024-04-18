@@ -1,0 +1,907 @@
+ mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.28-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| dbkuliahekal       |
+| dbpegawai          |
+| dbpuskesmas        |
+| dbti02             |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+9 rows in set (0.030 sec)
+
+MariaDB [(none)]> USE dbpegawai;
+Database changed
+MariaDB [dbpegawai]> DESC divisi;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.033 sec)
+
+MariaDB [dbpegawai]> DESC jabatan;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.032 sec)
+
+MariaDB [dbpegawai]> DESC pegawai;
++-----------+-------------------------------+------+-----+---------+----------------+
+| Field     | Type                          | Null | Key | Default | Extra          |
++-----------+-------------------------------+------+-----+---------+----------------+
+| id        | int(11)                       | NO   | PRI | NULL    | auto_increment |
+| nip       | char(5)                       | NO   | UNI | NULL    |                |
+| nama      | varchar(30)                   | NO   |     | NULL    |                |
+| gender    | enum('Laki-Laki','Perempuan') | NO   |     | NULL    |                |
+| tmp_lahir | varchar(30)                   | NO   |     | NULL    |                |
+| tgl_lahir | date                          | NO   |     | NULL    |                |
+| iddivisi  | int(11)                       | NO   | MUL | NULL    |                |
+| idjabatan | int(11)                       | NO   | MUL | NULL    |                |
+| alamat    | text                          | YES  |     | NULL    |                |
++-----------+-------------------------------+------+-----+---------+----------------+
+9 rows in set (0.033 sec)
+
+MariaDB [dbpegawai]> SHOW TABLES;
++---------------------+
+| Tables_in_dbpegawai |
++---------------------+
+| divisi              |
+| jabatan             |
+| pegawai             |
++---------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM divisi;
++----+-----------+
+| id | nama      |
++----+-----------+
+|  4 | IT        |
+|  2 | Keuangan  |
+|  3 | Marketing |
+|  1 | SDM       |
++----+-----------+
+4 rows in set (0.032 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM jabatan;
++----+-----------------+
+| id | nama            |
++----+-----------------+
+|  3 | Asisten Manajer |
+|  1 | Direktur        |
+|  2 | Manajer         |
+|  4 | Staff           |
++----+-----------------+
+4 rows in set (0.023 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+-------+-------------------+-----------+-----------+------------+----------+-----------+--------------------------+
+| id | nip   | nama              | gender    | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat                   |
++----+-------+-------------------+-----------+-----------+------------+----------+-----------+--------------------------+
+|  5 | 43211 | Alejandro Haekal  | Laki-Laki | Bogor     | 2004-02-07 |        4 |         1 | Jl. GG. Djereng          |
+|  6 | 12345 | Nanda Rayhan      | Laki-Laki | Depok     | 2001-09-02 |        4 |         1 | Jl. GG. Mawar            |
+|  7 | 34521 | Elok Shakira      | Perempuan | Surabaya  | 2000-01-09 |        4 |         1 | Jl. GG. Melati           |
+|  8 | 56789 | Adinda            | Perempuan | Bogor     | 2004-07-24 |        4 |         1 | Jl. GG. HJ. Minggu       |
+| 14 | 67543 | Nizar Al Faiq     | Laki-Laki | Jakarta   | 2002-07-02 |        3 |         2 | Jl. GG. Sumbing          |
+| 15 | 14325 | Naya Salsalia     | Perempuan | Palembang | 2003-08-03 |        3 |         2 | Jl. GG. Suwing           |
+| 16 | 34321 | Wildan Santiago   | Laki-Laki | Bali      | 2001-11-01 |        3 |         2 | Jl. GG. HJ. Salah        |
+| 17 | 29987 | Zidane Pandjaitan | Laki-Laki | Bogor     | 2004-12-03 |        3 |         2 | Jl. GG. HJ. Selamet      |
+| 18 | 09876 | Riosti            | Perempuan | Medan     | 2001-02-01 |        3 |         2 | Jl. GG. HJ. Beruntung    |
+| 19 | 98976 | Ida               | Perempuan | Solo      | 2001-02-08 |        2 |         3 | Jl. Margonda 2           |
+| 25 | 98987 | Ida               | Perempuan | Solo      | 2001-02-08 |        2 |         3 | Jl. Margonda 2           |
+| 26 | 56743 | Iqbal Ramadhan    | Laki-Laki | Bandung   | 2004-07-09 |        2 |         3 | Jl. Margonda Residence 3 |
+| 27 | 44441 | Najwa Billah      | Perempuan | Samarinda | 2002-01-06 |        2 |         3 | Jl. Raya Bogor           |
+| 28 | 45435 | Irhamna Akbar     | Laki-Laki | Gadog     | 2004-09-09 |        2 |         3 | Jl. Raya Puncak          |
+| 29 | 55667 | Ilham Rudy        | Laki-Laki | Klaten    | 2001-03-08 |        2 |         3 | Jl. GG. Subroto 2        |
+| 30 | 55980 | Farel Bahar       | Laki-Laki | Palu      | 2001-02-01 |        1 |         4 | Jl. Harapan 2            |
+| 31 | 09875 | Musthofa          | Laki-Laki | Cilodong  | 2004-01-02 |        1 |         4 | Jl. Pencapaian 2         |
+| 32 | 99809 | Nabila Dea        | Perempuan | Cibinong  | 2002-12-09 |        1 |         4 | Jl. Sliwangi             |
+| 33 | 88768 | Adnan Alwi        | Laki-Laki | Cigombong | 2000-11-23 |        1 |         4 | Jl. Srilangka            |
+| 34 | 77789 | Kanika Sari       | Perempuan | Ciampea   | 2003-10-21 |        1 |         4 | Jl. Bnedungan            |
++----+-------+-------------------+-----------+-----------+------------+----------+-----------+--------------------------+
+20 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET nama = 'Ida Kurnia',
+    -> tmp;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 3
+MariaDB [dbpegawai]> UPDATE pegawai;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET nama = 'Ida Kurnia', tmp_lahir = 'Cipeundey', alamat = 'Jl. Subroto 6'
+    -> WHERE nip = '98976';
+Query OK, 1 row affected (0.025 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET nama = 'Musthofa Muslimin', tmp_lahir = 'Cilangkap', alamat = 'Jl. Roto 2'
+    -> WHERE nip = '09875';
+Query OK, 1 row affected (0.025 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET nama = 'Kanika Sari Bunga', tmp_lahir = 'Cilacap', alamat = 'Jl. Bendungan 7'
+    -> WHERE nip = '77789';
+Query OK, 1 row affected (0.025 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET nama = 'Adnan Alwi Bambu', tmp_lahir = 'Cilandak', alamat = 'Jl. Krucu 5'
+    -> WHERE nip = '88678';
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET nama = 'Ilham Rudy Nolan', tmp_lahir = 'Kilimanjaro', alamat = 'Jl. Bot 1'
+    -> WHERE nip = '55667';
+Query OK, 1 row affected (0.025 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> DELETE FROM pegawai ORDER BY id DESC LIMIT 2;
+Query OK, 2 rows affected (0.027 sec)
+
+MariaDB [dbpegawai]> ALTER TABLE pegawai
+    -> ADD COLUMN berat_badan INT NOT NULL;
+Query OK, 0 rows affected (0.034 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 55
+    -> WHERE id = 6;
+Query OK, 1 row affected (0.026 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 53
+    -> WHERE id = 7;
+Query OK, 1 row affected (0.014 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 60
+    -> WHERE id = 8;
+Query OK, 1 row affected (0.024 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 57
+    -> WHERE id = 9;
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 59
+    -> WHERE id = 10;
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 58
+    -> WHERE id = 11;
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 61
+    -> WHERE id = 12;
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 52
+    -> WHERE id = 13;
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 61
+    -> WHERE id = 14;
+Query OK, 1 row affected (0.025 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 65
+    -> WHERE id = 15;
+Query OK, 1 row affected (0.025 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 64
+    -> WHERE id = 16;
+Query OK, 1 row affected (0.025 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 62
+    -> WHERE id = 17;
+Query OK, 1 row affected (0.025 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 68
+    -> WHERE id = 18;
+Query OK, 1 row affected (0.024 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 54
+    -> WHERE id = 19;
+Query OK, 1 row affected (0.026 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 51
+    -> WHERE id = 20;
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 53
+    -> WHERE id = 21;
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = 68
+    -> WHERE id = 22;
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [dbpegawai]> ALTER TABLE pegawai
+    -> ADD COLUMN umur INT NOT NULL;
+Query OK, 0 rows affected (0.035 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET umur = FLOOR(RAND() * 40) + 20;
+Query OK, 18 rows affected (0.027 sec)
+Rows matched: 18  Changed: 18  Warnings: 0
+
+MariaDB [dbpegawai]> ALTER TABLE pegawai
+    -> CHANGE COLUMN gender jenis_kelamin VARCHAR(20);
+Query OK, 18 rows affected (0.090 sec)
+Records: 18  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpegawai]> SELECT nip, nama, jenis_kelamin, alamat
+    -> FROM pegawai;
++-------+-------------------+---------------+--------------------------+
+| nip   | nama              | jenis_kelamin | alamat                   |
++-------+-------------------+---------------+--------------------------+
+| 43211 | Alejandro Haekal  | Laki-Laki     | Jl. GG. Djereng          |
+| 12345 | Nanda Rayhan      | Laki-Laki     | Jl. GG. Mawar            |
+| 34521 | Elok Shakira      | Perempuan     | Jl. GG. Melati           |
+| 56789 | Adinda            | Perempuan     | Jl. GG. HJ. Minggu       |
+| 67543 | Nizar Al Faiq     | Laki-Laki     | Jl. GG. Sumbing          |
+| 14325 | Naya Salsalia     | Perempuan     | Jl. GG. Suwing           |
+| 34321 | Wildan Santiago   | Laki-Laki     | Jl. GG. HJ. Salah        |
+| 29987 | Zidane Pandjaitan | Laki-Laki     | Jl. GG. HJ. Selamet      |
+| 09876 | Riosti            | Perempuan     | Jl. GG. HJ. Beruntung    |
+| 98976 | Ida Kurnia        | Perempuan     | Jl. Subroto 6            |
+| 98987 | Ida               | Perempuan     | Jl. Margonda 2           |
+| 56743 | Iqbal Ramadhan    | Laki-Laki     | Jl. Margonda Residence 3 |
+| 44441 | Najwa Billah      | Perempuan     | Jl. Raya Bogor           |
+| 45435 | Irhamna Akbar     | Laki-Laki     | Jl. Raya Puncak          |
+| 55667 | Ilham Rudy Nolan  | Laki-Laki     | Jl. Bot 1                |
+| 55980 | Farel Bahar       | Laki-Laki     | Jl. Harapan 2            |
+| 09875 | Musthofa Muslimin | Laki-Laki     | Jl. Roto 2               |
+| 99809 | Nabila Dea        | Perempuan     | Jl. Sliwangi             |
++-------+-------------------+---------------+--------------------------+
+18 rows in set (0.004 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE jenis_kelamin = 'Laki-Laki';
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+| id | nip   | nama              | jenis_kelamin | tmp_lahir   | tgl_lahir  | iddivisi | idjabatan | alamat                   | berat_badan | umur |
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+|  5 | 43211 | Alejandro Haekal  | Laki-Laki     | Bogor       | 2004-02-07 |        4 |         1 | Jl. GG. Djereng          |           0 |   41 |
+|  6 | 12345 | Nanda Rayhan      | Laki-Laki     | Depok       | 2001-09-02 |        4 |         1 | Jl. GG. Mawar            |          55 |   44 |
+| 14 | 67543 | Nizar Al Faiq     | Laki-Laki     | Jakarta     | 2002-07-02 |        3 |         2 | Jl. GG. Sumbing          |          61 |   41 |
+| 16 | 34321 | Wildan Santiago   | Laki-Laki     | Bali        | 2001-11-01 |        3 |         2 | Jl. GG. HJ. Salah        |          64 |   54 |
+| 17 | 29987 | Zidane Pandjaitan | Laki-Laki     | Bogor       | 2004-12-03 |        3 |         2 | Jl. GG. HJ. Selamet      |          62 |   43 |
+| 26 | 56743 | Iqbal Ramadhan    | Laki-Laki     | Bandung     | 2004-07-09 |        2 |         3 | Jl. Margonda Residence 3 |           0 |   28 |
+| 28 | 45435 | Irhamna Akbar     | Laki-Laki     | Gadog       | 2004-09-09 |        2 |         3 | Jl. Raya Puncak          |           0 |   46 |
+| 29 | 55667 | Ilham Rudy Nolan  | Laki-Laki     | Kilimanjaro | 2001-03-08 |        2 |         3 | Jl. Bot 1                |           0 |   24 |
+| 30 | 55980 | Farel Bahar       | Laki-Laki     | Palu        | 2001-02-01 |        1 |         4 | Jl. Harapan 2            |           0 |   45 |
+| 31 | 09875 | Musthofa Muslimin | Laki-Laki     | Cilangkap   | 2004-01-02 |        1 |         4 | Jl. Roto 2               |           0 |   52 |
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+10 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE iddivisi = 4 AND jenis_kelamin = 'Perempuan';
++----+-------+--------------+---------------+-----------+------------+----------+-----------+--------------------+-------------+------+
+| id | nip   | nama         | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat             | berat_badan | umur |
++----+-------+--------------+---------------+-----------+------------+----------+-----------+--------------------+-------------+------+
+|  7 | 34521 | Elok Shakira | Perempuan     | Surabaya  | 2000-01-09 |        4 |         1 | Jl. GG. Melati     |          53 |   39 |
+|  8 | 56789 | Adinda       | Perempuan     | Bogor     | 2004-07-24 |        4 |         1 | Jl. GG. HJ. Minggu |          60 |   44 |
++----+-------+--------------+---------------+-----------+------------+----------+-----------+--------------------+-------------+------+
+2 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE umur > 30 AND tmp_lahir = 'Bogor';
++----+-------+-------------------+---------------+-----------+------------+----------+-----------+---------------------+-------------+------+
+| id | nip   | nama              | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat              | berat_badan | umur |
++----+-------+-------------------+---------------+-----------+------------+----------+-----------+---------------------+-------------+------+
+|  5 | 43211 | Alejandro Haekal  | Laki-Laki     | Bogor     | 2004-02-07 |        4 |         1 | Jl. GG. Djereng     |           0 |   41 |
+|  8 | 56789 | Adinda            | Perempuan     | Bogor     | 2004-07-24 |        4 |         1 | Jl. GG. HJ. Minggu  |          60 |   44 |
+| 17 | 29987 | Zidane Pandjaitan | Laki-Laki     | Bogor     | 2004-12-03 |        3 |         2 | Jl. GG. HJ. Selamet |          62 |   43 |
++----+-------+-------------------+---------------+-----------+------------+----------+-----------+---------------------+-------------+------+
+3 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE iddivisi = 3 AND umur > 30 AND jenis_kelamin = 'Perempuan';
++----+-------+---------------+---------------+-----------+------------+----------+-----------+-----------------------+-------------+------+
+| id | nip   | nama          | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat                | berat_badan | umur |
++----+-------+---------------+---------------+-----------+------------+----------+-----------+-----------------------+-------------+------+
+| 15 | 14325 | Naya Salsalia | Perempuan     | Palembang | 2003-08-03 |        3 |         2 | Jl. GG. Suwing        |          65 |   55 |
+| 18 | 09876 | Riosti        | Perempuan     | Medan     | 2001-02-01 |        3 |         2 | Jl. GG. HJ. Beruntung |          68 |   36 |
++----+-------+---------------+---------------+-----------+------------+----------+-----------+-----------------------+-------------+------+
+2 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT nip FROM pegawai;
++-------+
+| nip   |
++-------+
+| 09875 |
+| 09876 |
+| 12345 |
+| 14325 |
+| 29987 |
+| 34321 |
+| 34521 |
+| 43211 |
+| 44441 |
+| 45435 |
+| 55667 |
+| 55980 |
+| 56743 |
+| 56789 |
+| 67543 |
+| 98976 |
+| 98987 |
+| 99809 |
++-------+
+18 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE jenis_kelamin = 'Perempuan';
++----+-------+---------------+---------------+-----------+------------+----------+-----------+-----------------------+-------------+------+
+| id | nip   | nama          | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat                | berat_badan | umur |
++----+-------+---------------+---------------+-----------+------------+----------+-----------+-----------------------+-------------+------+
+|  7 | 34521 | Elok Shakira  | Perempuan     | Surabaya  | 2000-01-09 |        4 |         1 | Jl. GG. Melati        |          53 |   39 |
+|  8 | 56789 | Adinda        | Perempuan     | Bogor     | 2004-07-24 |        4 |         1 | Jl. GG. HJ. Minggu    |          60 |   44 |
+| 15 | 14325 | Naya Salsalia | Perempuan     | Palembang | 2003-08-03 |        3 |         2 | Jl. GG. Suwing        |          65 |   55 |
+| 18 | 09876 | Riosti        | Perempuan     | Medan     | 2001-02-01 |        3 |         2 | Jl. GG. HJ. Beruntung |          68 |   36 |
+| 19 | 98976 | Ida Kurnia    | Perempuan     | Cipeundey | 2001-02-08 |        2 |         3 | Jl. Subroto 6         |          54 |   29 |
+| 25 | 98987 | Ida           | Perempuan     | Solo      | 2001-02-08 |        2 |         3 | Jl. Margonda 2        |           0 |   59 |
+| 27 | 44441 | Najwa Billah  | Perempuan     | Samarinda | 2002-01-06 |        2 |         3 | Jl. Raya Bogor        |           0 |   22 |
+| 32 | 99809 | Nabila Dea    | Perempuan     | Cibinong  | 2002-12-09 |        1 |         4 | Jl. Sliwangi          |           0 |   24 |
++----+-------+---------------+---------------+-----------+------------+----------+-----------+-----------------------+-------------+------+
+8 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nip in (56789,43211,14325,99809,34521);
++----+-------+------------------+---------------+-----------+------------+----------+-----------+--------------------+-------------+------+
+| id | nip   | nama             | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat             | berat_badan | umur |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+--------------------+-------------+------+
+|  5 | 43211 | Alejandro Haekal | Laki-Laki     | Bogor     | 2004-02-07 |        4 |         1 | Jl. GG. Djereng    |           0 |   41 |
+|  7 | 34521 | Elok Shakira     | Perempuan     | Surabaya  | 2000-01-09 |        4 |         1 | Jl. GG. Melati     |          53 |   39 |
+|  8 | 56789 | Adinda           | Perempuan     | Bogor     | 2004-07-24 |        4 |         1 | Jl. GG. HJ. Minggu |          60 |   44 |
+| 15 | 14325 | Naya Salsalia    | Perempuan     | Palembang | 2003-08-03 |        3 |         2 | Jl. GG. Suwing     |          65 |   55 |
+| 32 | 99809 | Nabila Dea       | Perempuan     | Cibinong  | 2002-12-09 |        1 |         4 | Jl. Sliwangi       |           0 |   24 |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+--------------------+-------------+------+
+5 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE tmp_lahir NOT IN ('Bogor', 'Jakarta');
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+| id | nip   | nama              | jenis_kelamin | tmp_lahir   | tgl_lahir  | iddivisi | idjabatan | alamat                   | berat_badan | umur |
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+|  6 | 12345 | Nanda Rayhan      | Laki-Laki     | Depok       | 2001-09-02 |        4 |         1 | Jl. GG. Mawar            |          55 |   44 |
+|  7 | 34521 | Elok Shakira      | Perempuan     | Surabaya    | 2000-01-09 |        4 |         1 | Jl. GG. Melati           |          53 |   39 |
+| 15 | 14325 | Naya Salsalia     | Perempuan     | Palembang   | 2003-08-03 |        3 |         2 | Jl. GG. Suwing           |          65 |   55 |
+| 16 | 34321 | Wildan Santiago   | Laki-Laki     | Bali        | 2001-11-01 |        3 |         2 | Jl. GG. HJ. Salah        |          64 |   54 |
+| 18 | 09876 | Riosti            | Perempuan     | Medan       | 2001-02-01 |        3 |         2 | Jl. GG. HJ. Beruntung    |          68 |   36 |
+| 19 | 98976 | Ida Kurnia        | Perempuan     | Cipeundey   | 2001-02-08 |        2 |         3 | Jl. Subroto 6            |          54 |   29 |
+| 25 | 98987 | Ida               | Perempuan     | Solo        | 2001-02-08 |        2 |         3 | Jl. Margonda 2           |           0 |   59 |
+| 26 | 56743 | Iqbal Ramadhan    | Laki-Laki     | Bandung     | 2004-07-09 |        2 |         3 | Jl. Margonda Residence 3 |           0 |   28 |
+| 27 | 44441 | Najwa Billah      | Perempuan     | Samarinda   | 2002-01-06 |        2 |         3 | Jl. Raya Bogor           |           0 |   22 |
+| 28 | 45435 | Irhamna Akbar     | Laki-Laki     | Gadog       | 2004-09-09 |        2 |         3 | Jl. Raya Puncak          |           0 |   46 |
+| 29 | 55667 | Ilham Rudy Nolan  | Laki-Laki     | Kilimanjaro | 2001-03-08 |        2 |         3 | Jl. Bot 1                |           0 |   24 |
+| 30 | 55980 | Farel Bahar       | Laki-Laki     | Palu        | 2001-02-01 |        1 |         4 | Jl. Harapan 2            |           0 |   45 |
+| 31 | 09875 | Musthofa Muslimin | Laki-Laki     | Cilangkap   | 2004-01-02 |        1 |         4 | Jl. Roto 2               |           0 |   52 |
+| 32 | 99809 | Nabila Dea        | Perempuan     | Cibinong    | 2002-12-09 |        1 |         4 | Jl. Sliwangi             |           0 |   24 |
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+14 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> ORDER BY nama ASC;
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+| id | nip   | nama              | jenis_kelamin | tmp_lahir   | tgl_lahir  | iddivisi | idjabatan | alamat                   | berat_badan | umur |
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+|  8 | 56789 | Adinda            | Perempuan     | Bogor       | 2004-07-24 |        4 |         1 | Jl. GG. HJ. Minggu       |          60 |   44 |
+|  5 | 43211 | Alejandro Haekal  | Laki-Laki     | Bogor       | 2004-02-07 |        4 |         1 | Jl. GG. Djereng          |           0 |   41 |
+|  7 | 34521 | Elok Shakira      | Perempuan     | Surabaya    | 2000-01-09 |        4 |         1 | Jl. GG. Melati           |          53 |   39 |
+| 30 | 55980 | Farel Bahar       | Laki-Laki     | Palu        | 2001-02-01 |        1 |         4 | Jl. Harapan 2            |           0 |   45 |
+| 25 | 98987 | Ida               | Perempuan     | Solo        | 2001-02-08 |        2 |         3 | Jl. Margonda 2           |           0 |   59 |
+| 19 | 98976 | Ida Kurnia        | Perempuan     | Cipeundey   | 2001-02-08 |        2 |         3 | Jl. Subroto 6            |          54 |   29 |
+| 29 | 55667 | Ilham Rudy Nolan  | Laki-Laki     | Kilimanjaro | 2001-03-08 |        2 |         3 | Jl. Bot 1                |           0 |   24 |
+| 26 | 56743 | Iqbal Ramadhan    | Laki-Laki     | Bandung     | 2004-07-09 |        2 |         3 | Jl. Margonda Residence 3 |           0 |   28 |
+| 28 | 45435 | Irhamna Akbar     | Laki-Laki     | Gadog       | 2004-09-09 |        2 |         3 | Jl. Raya Puncak          |           0 |   46 |
+| 31 | 09875 | Musthofa Muslimin | Laki-Laki     | Cilangkap   | 2004-01-02 |        1 |         4 | Jl. Roto 2               |           0 |   52 |
+| 32 | 99809 | Nabila Dea        | Perempuan     | Cibinong    | 2002-12-09 |        1 |         4 | Jl. Sliwangi             |           0 |   24 |
+| 27 | 44441 | Najwa Billah      | Perempuan     | Samarinda   | 2002-01-06 |        2 |         3 | Jl. Raya Bogor           |           0 |   22 |
+|  6 | 12345 | Nanda Rayhan      | Laki-Laki     | Depok       | 2001-09-02 |        4 |         1 | Jl. GG. Mawar            |          55 |   44 |
+| 15 | 14325 | Naya Salsalia     | Perempuan     | Palembang   | 2003-08-03 |        3 |         2 | Jl. GG. Suwing           |          65 |   55 |
+| 14 | 67543 | Nizar Al Faiq     | Laki-Laki     | Jakarta     | 2002-07-02 |        3 |         2 | Jl. GG. Sumbing          |          61 |   41 |
+| 18 | 09876 | Riosti            | Perempuan     | Medan       | 2001-02-01 |        3 |         2 | Jl. GG. HJ. Beruntung    |          68 |   36 |
+| 16 | 34321 | Wildan Santiago   | Laki-Laki     | Bali        | 2001-11-01 |        3 |         2 | Jl. GG. HJ. Salah        |          64 |   54 |
+| 17 | 29987 | Zidane Pandjaitan | Laki-Laki     | Bogor       | 2004-12-03 |        3 |         2 | Jl. GG. HJ. Selamet      |          62 |   43 |
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+18 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> ORDER BY berat_badan DESC;
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+| id | nip   | nama              | jenis_kelamin | tmp_lahir   | tgl_lahir  | iddivisi | idjabatan | alamat                   | berat_badan | umur |
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+| 18 | 09876 | Riosti            | Perempuan     | Medan       | 2001-02-01 |        3 |         2 | Jl. GG. HJ. Beruntung    |          68 |   36 |
+| 15 | 14325 | Naya Salsalia     | Perempuan     | Palembang   | 2003-08-03 |        3 |         2 | Jl. GG. Suwing           |          65 |   55 |
+| 16 | 34321 | Wildan Santiago   | Laki-Laki     | Bali        | 2001-11-01 |        3 |         2 | Jl. GG. HJ. Salah        |          64 |   54 |
+| 17 | 29987 | Zidane Pandjaitan | Laki-Laki     | Bogor       | 2004-12-03 |        3 |         2 | Jl. GG. HJ. Selamet      |          62 |   43 |
+| 14 | 67543 | Nizar Al Faiq     | Laki-Laki     | Jakarta     | 2002-07-02 |        3 |         2 | Jl. GG. Sumbing          |          61 |   41 |
+|  8 | 56789 | Adinda            | Perempuan     | Bogor       | 2004-07-24 |        4 |         1 | Jl. GG. HJ. Minggu       |          60 |   44 |
+|  6 | 12345 | Nanda Rayhan      | Laki-Laki     | Depok       | 2001-09-02 |        4 |         1 | Jl. GG. Mawar            |          55 |   44 |
+| 19 | 98976 | Ida Kurnia        | Perempuan     | Cipeundey   | 2001-02-08 |        2 |         3 | Jl. Subroto 6            |          54 |   29 |
+|  7 | 34521 | Elok Shakira      | Perempuan     | Surabaya    | 2000-01-09 |        4 |         1 | Jl. GG. Melati           |          53 |   39 |
+|  5 | 43211 | Alejandro Haekal  | Laki-Laki     | Bogor       | 2004-02-07 |        4 |         1 | Jl. GG. Djereng          |           0 |   41 |
+| 25 | 98987 | Ida               | Perempuan     | Solo        | 2001-02-08 |        2 |         3 | Jl. Margonda 2           |           0 |   59 |
+| 26 | 56743 | Iqbal Ramadhan    | Laki-Laki     | Bandung     | 2004-07-09 |        2 |         3 | Jl. Margonda Residence 3 |           0 |   28 |
+| 27 | 44441 | Najwa Billah      | Perempuan     | Samarinda   | 2002-01-06 |        2 |         3 | Jl. Raya Bogor           |           0 |   22 |
+| 28 | 45435 | Irhamna Akbar     | Laki-Laki     | Gadog       | 2004-09-09 |        2 |         3 | Jl. Raya Puncak          |           0 |   46 |
+| 29 | 55667 | Ilham Rudy Nolan  | Laki-Laki     | Kilimanjaro | 2001-03-08 |        2 |         3 | Jl. Bot 1                |           0 |   24 |
+| 30 | 55980 | Farel Bahar       | Laki-Laki     | Palu        | 2001-02-01 |        1 |         4 | Jl. Harapan 2            |           0 |   45 |
+| 31 | 09875 | Musthofa Muslimin | Laki-Laki     | Cilangkap   | 2004-01-02 |        1 |         4 | Jl. Roto 2               |           0 |   52 |
+| 32 | 99809 | Nabila Dea        | Perempuan     | Cibinong    | 2002-12-09 |        1 |         4 | Jl. Sliwangi             |           0 |   24 |
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+18 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> LIMIT 5;
++----+-------+------------------+---------------+-----------+------------+----------+-----------+--------------------+-------------+------+
+| id | nip   | nama             | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat             | berat_badan | umur |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+--------------------+-------------+------+
+|  5 | 43211 | Alejandro Haekal | Laki-Laki     | Bogor     | 2004-02-07 |        4 |         1 | Jl. GG. Djereng    |           0 |   41 |
+|  6 | 12345 | Nanda Rayhan     | Laki-Laki     | Depok     | 2001-09-02 |        4 |         1 | Jl. GG. Mawar      |          55 |   44 |
+|  7 | 34521 | Elok Shakira     | Perempuan     | Surabaya  | 2000-01-09 |        4 |         1 | Jl. GG. Melati     |          53 |   39 |
+|  8 | 56789 | Adinda           | Perempuan     | Bogor     | 2004-07-24 |        4 |         1 | Jl. GG. HJ. Minggu |          60 |   44 |
+| 14 | 67543 | Nizar Al Faiq    | Laki-Laki     | Jakarta   | 2002-07-02 |        3 |         2 | Jl. GG. Sumbing    |          61 |   41 |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+--------------------+-------------+------+
+5 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> ORDER BY id DESC
+    -> LIMIT 5;
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+-----------------+-------------+------+
+| id | nip   | nama              | jenis_kelamin | tmp_lahir   | tgl_lahir  | iddivisi | idjabatan | alamat          | berat_badan | umur |
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+-----------------+-------------+------+
+| 32 | 99809 | Nabila Dea        | Perempuan     | Cibinong    | 2002-12-09 |        1 |         4 | Jl. Sliwangi    |           0 |   24 |
+| 31 | 09875 | Musthofa Muslimin | Laki-Laki     | Cilangkap   | 2004-01-02 |        1 |         4 | Jl. Roto 2      |           0 |   52 |
+| 30 | 55980 | Farel Bahar       | Laki-Laki     | Palu        | 2001-02-01 |        1 |         4 | Jl. Harapan 2   |           0 |   45 |
+| 29 | 55667 | Ilham Rudy Nolan  | Laki-Laki     | Kilimanjaro | 2001-03-08 |        2 |         3 | Jl. Bot 1       |           0 |   24 |
+| 28 | 45435 | Irhamna Akbar     | Laki-Laki     | Gadog       | 2004-09-09 |        2 |         3 | Jl. Raya Puncak |           0 |   46 |
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+-----------------+-------------+------+
+5 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT COUNT(*) AS jumlah_pegawai
+    -> FROM pegawai;
++----------------+
+| jumlah_pegawai |
++----------------+
+|             18 |
++----------------+
+1 row in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT nip, nama, umur
+    -> FROM pegawai
+    -> WHERE umur = (SELECT MAX(umur) FROM pegawai);
++-------+------+------+
+| nip   | nama | umur |
++-------+------+------+
+| 98987 | Ida  |   59 |
++-------+------+------+
+1 row in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT nip, nama, berat_badan FROM pegawai
+    -> WHERE berat_badan = (SELECT MIN(berat_badan)
+    -> FROM pegawai);
++-------+-------------------+-------------+
+| nip   | nama              | berat_badan |
++-------+-------------------+-------------+
+| 43211 | Alejandro Haekal  |           0 |
+| 98987 | Ida               |           0 |
+| 56743 | Iqbal Ramadhan    |           0 |
+| 44441 | Najwa Billah      |           0 |
+| 45435 | Irhamna Akbar     |           0 |
+| 55667 | Ilham Rudy Nolan  |           0 |
+| 55980 | Farel Bahar       |           0 |
+| 09875 | Musthofa Muslimin |           0 |
+| 99809 | Nabila Dea        |           0 |
++-------+-------------------+-------------+
+9 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> UPDATE jabatan SET Farel Bahar = Muhammad Farel Bahar WHERE nama;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Bahar = Muhammad Farel Bahar WHERE nama' at line 1
+MariaDB [dbpegawai]> Bye
+
+Haikal@LAPTOP-QTMJAKLE c:\xampp
+#
+
+Haikal@LAPTOP-QTMJAKLE c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 10.4.28-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| dbkuliahekal       |
+| dbpegawai          |
+| dbpuskesmas        |
+| dbti02             |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+9 rows in set (0.002 sec)
+
+MariaDB [(none)]> USE dbpegawai
+Database changed
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+| id | nip   | nama              | jenis_kelamin | tmp_lahir   | tgl_lahir  | iddivisi | idjabatan | alamat                   | berat_badan | umur |
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+|  5 | 43211 | Alejandro Haekal  | Laki-Laki     | Bogor       | 2004-02-07 |        4 |         1 | Jl. GG. Djereng          |           0 |   41 |
+|  6 | 12345 | Nanda Rayhan      | Laki-Laki     | Depok       | 2001-09-02 |        4 |         1 | Jl. GG. Mawar            |          55 |   44 |
+|  7 | 34521 | Elok Shakira      | Perempuan     | Surabaya    | 2000-01-09 |        4 |         1 | Jl. GG. Melati           |          53 |   39 |
+|  8 | 56789 | Adinda            | Perempuan     | Bogor       | 2004-07-24 |        4 |         1 | Jl. GG. HJ. Minggu       |          60 |   44 |
+| 14 | 67543 | Nizar Al Faiq     | Laki-Laki     | Jakarta     | 2002-07-02 |        3 |         2 | Jl. GG. Sumbing          |          61 |   41 |
+| 15 | 14325 | Naya Salsalia     | Perempuan     | Palembang   | 2003-08-03 |        3 |         2 | Jl. GG. Suwing           |          65 |   55 |
+| 16 | 34321 | Wildan Santiago   | Laki-Laki     | Bali        | 2001-11-01 |        3 |         2 | Jl. GG. HJ. Salah        |          64 |   54 |
+| 17 | 29987 | Zidane Pandjaitan | Laki-Laki     | Bogor       | 2004-12-03 |        3 |         2 | Jl. GG. HJ. Selamet      |          62 |   43 |
+| 18 | 09876 | Riosti            | Perempuan     | Medan       | 2001-02-01 |        3 |         2 | Jl. GG. HJ. Beruntung    |          68 |   36 |
+| 19 | 98976 | Ida Kurnia        | Perempuan     | Cipeundey   | 2001-02-08 |        2 |         3 | Jl. Subroto 6            |          54 |   29 |
+| 25 | 98987 | Ida               | Perempuan     | Solo        | 2001-02-08 |        2 |         3 | Jl. Margonda 2           |           0 |   59 |
+| 26 | 56743 | Iqbal Ramadhan    | Laki-Laki     | Bandung     | 2004-07-09 |        2 |         3 | Jl. Margonda Residence 3 |           0 |   28 |
+| 27 | 44441 | Najwa Billah      | Perempuan     | Samarinda   | 2002-01-06 |        2 |         3 | Jl. Raya Bogor           |           0 |   22 |
+| 28 | 45435 | Irhamna Akbar     | Laki-Laki     | Gadog       | 2004-09-09 |        2 |         3 | Jl. Raya Puncak          |           0 |   46 |
+| 29 | 55667 | Ilham Rudy Nolan  | Laki-Laki     | Kilimanjaro | 2001-03-08 |        2 |         3 | Jl. Bot 1                |           0 |   24 |
+| 30 | 55980 | Farel Bahar       | Laki-Laki     | Palu        | 2001-02-01 |        1 |         4 | Jl. Harapan 2            |           0 |   45 |
+| 31 | 09875 | Musthofa Muslimin | Laki-Laki     | Cilangkap   | 2004-01-02 |        1 |         4 | Jl. Roto 2               |           0 |   52 |
+| 32 | 99809 | Nabila Dea        | Perempuan     | Cibinong    | 2002-12-09 |        1 |         4 | Jl. Sliwangi             |           0 |   24 |
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+18 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> UPDATE jabatan SET `Farel Bahar` = 'Muhammad Farel Bahar' WHERE nama = 'some_value';
+ERROR 1054 (42S22): Unknown column 'Farel Bahar' in 'field list'
+MariaDB [dbpegawai]> SHOW COLUMNS FROM jabatan;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.055 sec)
+
+MariaDB [dbpegawai]> UPDATE jabatan SET FarelBahar = 'Muhammad Farel Bahar' WHERE nama = 'some_value';
+ERROR 1054 (42S22): Unknown column 'FarelBahar' in 'field list'
+MariaDB [dbpegawai]> SHOW COLUMNS FROM jabatan;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.052 sec)
+
+MariaDB [dbpegawai]> ALTER TABLE jabatan ADD COLUMN `Farel Bahar` VARCHAR(255);
+Query OK, 0 rows affected (0.012 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE jabatan SET `Farel Bahar` = 'Muhammad Farel Bahar' WHERE nama = 'some_value';
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+| id | nip   | nama              | jenis_kelamin | tmp_lahir   | tgl_lahir  | iddivisi | idjabatan | alamat                   | berat_badan | umur |
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+|  5 | 43211 | Alejandro Haekal  | Laki-Laki     | Bogor       | 2004-02-07 |        4 |         1 | Jl. GG. Djereng          |           0 |   41 |
+|  6 | 12345 | Nanda Rayhan      | Laki-Laki     | Depok       | 2001-09-02 |        4 |         1 | Jl. GG. Mawar            |          55 |   44 |
+|  7 | 34521 | Elok Shakira      | Perempuan     | Surabaya    | 2000-01-09 |        4 |         1 | Jl. GG. Melati           |          53 |   39 |
+|  8 | 56789 | Adinda            | Perempuan     | Bogor       | 2004-07-24 |        4 |         1 | Jl. GG. HJ. Minggu       |          60 |   44 |
+| 14 | 67543 | Nizar Al Faiq     | Laki-Laki     | Jakarta     | 2002-07-02 |        3 |         2 | Jl. GG. Sumbing          |          61 |   41 |
+| 15 | 14325 | Naya Salsalia     | Perempuan     | Palembang   | 2003-08-03 |        3 |         2 | Jl. GG. Suwing           |          65 |   55 |
+| 16 | 34321 | Wildan Santiago   | Laki-Laki     | Bali        | 2001-11-01 |        3 |         2 | Jl. GG. HJ. Salah        |          64 |   54 |
+| 17 | 29987 | Zidane Pandjaitan | Laki-Laki     | Bogor       | 2004-12-03 |        3 |         2 | Jl. GG. HJ. Selamet      |          62 |   43 |
+| 18 | 09876 | Riosti            | Perempuan     | Medan       | 2001-02-01 |        3 |         2 | Jl. GG. HJ. Beruntung    |          68 |   36 |
+| 19 | 98976 | Ida Kurnia        | Perempuan     | Cipeundey   | 2001-02-08 |        2 |         3 | Jl. Subroto 6            |          54 |   29 |
+| 25 | 98987 | Ida               | Perempuan     | Solo        | 2001-02-08 |        2 |         3 | Jl. Margonda 2           |           0 |   59 |
+| 26 | 56743 | Iqbal Ramadhan    | Laki-Laki     | Bandung     | 2004-07-09 |        2 |         3 | Jl. Margonda Residence 3 |           0 |   28 |
+| 27 | 44441 | Najwa Billah      | Perempuan     | Samarinda   | 2002-01-06 |        2 |         3 | Jl. Raya Bogor           |           0 |   22 |
+| 28 | 45435 | Irhamna Akbar     | Laki-Laki     | Gadog       | 2004-09-09 |        2 |         3 | Jl. Raya Puncak          |           0 |   46 |
+| 29 | 55667 | Ilham Rudy Nolan  | Laki-Laki     | Kilimanjaro | 2001-03-08 |        2 |         3 | Jl. Bot 1                |           0 |   24 |
+| 30 | 55980 | Farel Bahar       | Laki-Laki     | Palu        | 2001-02-01 |        1 |         4 | Jl. Harapan 2            |           0 |   45 |
+| 31 | 09875 | Musthofa Muslimin | Laki-Laki     | Cilangkap   | 2004-01-02 |        1 |         4 | Jl. Roto 2               |           0 |   52 |
+| 32 | 99809 | Nabila Dea        | Perempuan     | Cibinong    | 2002-12-09 |        1 |         4 | Jl. Sliwangi             |           0 |   24 |
++----+-------+-------------------+---------------+-------------+------------+----------+-----------+--------------------------+-------------+------+
+18 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    ->  SET nama = 'Rahma Ozawa', tmp_lahir = 'Cipeundey', alamat = 'Jl. Subroto 6'
+    ->  WHERE nip = '98976';
+Query OK, 1 row affected (0.004 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    ->  SET nama = 'Muhammad Musthofa', tmp_lahir = 'Cilangkap', alamat = 'Jl. Roto 2'
+    ->  WHERE nip = '09875';
+Query OK, 1 row affected (0.047 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET nama = 'Kanika Sari Nur Santo', tmp_lahir = 'Cilacap', alamat = 'Jl. Bendungan 7'
+    ->  WHERE nip = '77789';
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    ->  SET nama = 'Bagus Saputraji', tmp_lahir = 'Cilandak', alamat = 'Jl. Krucu 5'
+    ->  WHERE nip = '88678';
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET nama = 'Muhammad Ilham Rudy', tmp_lahir = 'Kilimanjaro', alamat = 'Jl. Bot 1'
+    ->  WHERE nip = '55667';
+Query OK, 1 row affected (0.050 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> SELECT nip, nama, jenis_kelamin, alamat
+    -> FROM pegawai;
++-------+---------------------+---------------+--------------------------+
+| nip   | nama                | jenis_kelamin | alamat                   |
++-------+---------------------+---------------+--------------------------+
+| 43211 | Alejandro Haekal    | Laki-Laki     | Jl. GG. Djereng          |
+| 12345 | Nanda Rayhan        | Laki-Laki     | Jl. GG. Mawar            |
+| 34521 | Elok Shakira        | Perempuan     | Jl. GG. Melati           |
+| 56789 | Adinda              | Perempuan     | Jl. GG. HJ. Minggu       |
+| 67543 | Nizar Al Faiq       | Laki-Laki     | Jl. GG. Sumbing          |
+| 14325 | Naya Salsalia       | Perempuan     | Jl. GG. Suwing           |
+| 34321 | Wildan Santiago     | Laki-Laki     | Jl. GG. HJ. Salah        |
+| 29987 | Zidane Pandjaitan   | Laki-Laki     | Jl. GG. HJ. Selamet      |
+| 09876 | Riosti              | Perempuan     | Jl. GG. HJ. Beruntung    |
+| 98976 | Rahma Ozawa         | Perempuan     | Jl. Subroto 6            |
+| 98987 | Ida                 | Perempuan     | Jl. Margonda 2           |
+| 56743 | Iqbal Ramadhan      | Laki-Laki     | Jl. Margonda Residence 3 |
+| 44441 | Najwa Billah        | Perempuan     | Jl. Raya Bogor           |
+| 45435 | Irhamna Akbar       | Laki-Laki     | Jl. Raya Puncak          |
+| 55667 | Muhammad Ilham Rudy | Laki-Laki     | Jl. Bot 1                |
+| 55980 | Farel Bahar         | Laki-Laki     | Jl. Harapan 2            |
+| 09875 | Muhammad Musthofa   | Laki-Laki     | Jl. Roto 2               |
+| 99809 | Nabila Dea          | Perempuan     | Jl. Sliwangi             |
++-------+---------------------+---------------+--------------------------+
+18 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    ->  SET nama = 'Bagus Saputraji', tmp_lahir = 'Cilandak', alamat = 'Jl. Krucu 5'
+    ->  WHERE nip = '56743';
+Query OK, 1 row affected (0.026 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> SET nama = 'Kanika Sari Nur Santo', tmp_lahir = 'Cilacap', alamat = 'Jl. Bendungan 7'
+    ->  WHERE nip = '09876';
+ERROR 1193 (HY000): Unknown system variable 'nama'
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET nama = 'Kanika Sari Nur Santo', tmp_lahir = 'Cilacap', alamat = 'Jl. Bendungan 7'
+    ->  WHERE nip = '09876';
+Query OK, 1 row affected (0.025 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> SELECT nip, nama, jenis_kelamin, alamat
+    -> FROM pegawai;
++-------+-----------------------+---------------+---------------------+
+| nip   | nama                  | jenis_kelamin | alamat              |
++-------+-----------------------+---------------+---------------------+
+| 43211 | Alejandro Haekal      | Laki-Laki     | Jl. GG. Djereng     |
+| 12345 | Nanda Rayhan          | Laki-Laki     | Jl. GG. Mawar       |
+| 34521 | Elok Shakira          | Perempuan     | Jl. GG. Melati      |
+| 56789 | Adinda                | Perempuan     | Jl. GG. HJ. Minggu  |
+| 67543 | Nizar Al Faiq         | Laki-Laki     | Jl. GG. Sumbing     |
+| 14325 | Naya Salsalia         | Perempuan     | Jl. GG. Suwing      |
+| 34321 | Wildan Santiago       | Laki-Laki     | Jl. GG. HJ. Salah   |
+| 29987 | Zidane Pandjaitan     | Laki-Laki     | Jl. GG. HJ. Selamet |
+| 09876 | Kanika Sari Nur Santo | Perempuan     | Jl. Bendungan 7     |
+| 98976 | Rahma Ozawa           | Perempuan     | Jl. Subroto 6       |
+| 98987 | Ida                   | Perempuan     | Jl. Margonda 2      |
+| 56743 | Bagus Saputraji       | Laki-Laki     | Jl. Krucu 5         |
+| 44441 | Najwa Billah          | Perempuan     | Jl. Raya Bogor      |
+| 45435 | Irhamna Akbar         | Laki-Laki     | Jl. Raya Puncak     |
+| 55667 | Muhammad Ilham Rudy   | Laki-Laki     | Jl. Bot 1           |
+| 55980 | Farel Bahar           | Laki-Laki     | Jl. Harapan 2       |
+| 09875 | Muhammad Musthofa     | Laki-Laki     | Jl. Roto 2          |
+| 99809 | Nabila Dea            | Perempuan     | Jl. Sliwangi        |
++-------+-----------------------+---------------+---------------------+
+18 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT AVG(umur) AS rata2_umur
+    -> FROM pegawai;
++------------+
+| rata2_umur |
++------------+
+|    40.3333 |
++------------+
+1 row in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT COUNT(*) AS jumlah_pegawai FROM pegawai
+    -> WHERE jenis_kelamin = 'Laki-Laki' AND umur > 40 AND idjabatan = 2;
++----------------+
+| jumlah_pegawai |
++----------------+
+|              3 |
++----------------+
+1 row in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT COUNT(*) AS jumlah_pegawai FROM pegawai
+    -> WHERE jenis_kelamin = 'Perempuan' AND umur > 40 AND idjabatan = 4;
++----------------+
+| jumlah_pegawai |
++----------------+
+|              0 |
++----------------+
+1 row in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT COUNT(*) AS jumlah_pegawai_perempuan
+    -> FROM pegawai
+    -> WHERE jenis_kelamin = 'Perempuan';
++--------------------------+
+| jumlah_pegawai_perempuan |
++--------------------------+
+|                        8 |
++--------------------------+
+1 row in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT SUM(1) AS jumlah_pegawai
+    -> FROM pegawai
+    -> WHERE iddivisi =1;
++----------------+
+| jumlah_pegawai |
++----------------+
+|              3 |
++----------------+
+1 row in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT iddivisi, COUNT(*) AS jumlah_pegawai
+    -> FROM pegawai
+    -> GROUP BY iddivisi;
++----------+----------------+
+| iddivisi | jumlah_pegawai |
++----------+----------------+
+|        1 |              3 |
+|        2 |              6 |
+|        3 |              5 |
+|        4 |              4 |
++----------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT jenis_kelamin, COUNT(*) AS jumlah_pegawai
+    -> FROM pegawai
+    -> GROUP BY jenis_kelamin
+    -> HAVING COUNT(*) >= 10;
++---------------+----------------+
+| jenis_kelamin | jumlah_pegawai |
++---------------+----------------+
+| Laki-Laki     |             10 |
++---------------+----------------+
+1 row in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nama LIKE Muhammad%';
+    '> ;
+    '> Bye
+
+Haikal@LAPTOP-QTMJAKLE c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 10
+Server version: 10.4.28-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| dbkuliahekal       |
+| dbpegawai          |
+| dbpuskesmas        |
+| dbti02             |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+9 rows in set (0.002 sec)
+
+MariaDB [(none)]> USE dbpegawai
+Database changed
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nama LIKE 'Muhammad%';
++----+-------+---------------------+---------------+-------------+------------+----------+-----------+------------+-------------+------+
+| id | nip   | nama                | jenis_kelamin | tmp_lahir   | tgl_lahir  | iddivisi | idjabatan | alamat     | berat_badan | umur |
++----+-------+---------------------+---------------+-------------+------------+----------+-----------+------------+-------------+------+
+| 29 | 55667 | Muhammad Ilham Rudy | Laki-Laki     | Kilimanjaro | 2001-03-08 |        2 |         3 | Jl. Bot 1  |           0 |   24 |
+| 31 | 09875 | Muhammad Musthofa   | Laki-Laki     | Cilangkap   | 2004-01-02 |        1 |         4 | Jl. Roto 2 |           0 |   52 |
++----+-------+---------------------+---------------+-------------+------------+----------+-----------+------------+-------------+------+
+2 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nama LIKE '%Santo';
++----+-------+-----------------------+---------------+-----------+------------+----------+-----------+-----------------+-------------+------+
+| id | nip   | nama                  | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat          | berat_badan | umur |
++----+-------+-----------------------+---------------+-----------+------------+----------+-----------+-----------------+-------------+------+
+| 18 | 09876 | Kanika Sari Nur Santo | Perempuan     | Cilacap   | 2001-02-01 |        3 |         2 | Jl. Bendungan 7 |          68 |   36 |
++----+-------+-----------------------+---------------+-----------+------------+----------+-----------+-----------------+-------------+------+
+1 row in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nama LIKE '%Ozawa%';
++----+-------+-------------+---------------+-----------+------------+----------+-----------+---------------+-------------+------+
+| id | nip   | nama        | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat        | berat_badan | umur |
++----+-------+-------------+---------------+-----------+------------+----------+-----------+---------------+-------------+------+
+| 19 | 98976 | Rahma Ozawa | Perempuan     | Cipeundey | 2001-02-08 |        2 |         3 | Jl. Subroto 6 |          54 |   29 |
++----+-------+-------------+---------------+-----------+------------+----------+-----------+---------------+-------------+------+
+1 row in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nama LIKE '----s%';
+Empty set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nama LIKE '____s%';
++----+-------+-----------------+---------------+-----------+------------+----------+-----------+-------------+-------------+------+
+| id | nip   | nama            | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat      | berat_badan | umur |
++----+-------+-----------------+---------------+-----------+------------+----------+-----------+-------------+-------------+------+
+| 26 | 56743 | Bagus Saputraji | Laki-Laki     | Cilandak  | 2004-07-09 |        2 |         3 | Jl. Krucu 5 |           0 |   28 |
++----+-------+-----------------+---------------+-----------+------------+----------+-----------+-------------+-------------+------+
+1 row in set (0.000 sec)
